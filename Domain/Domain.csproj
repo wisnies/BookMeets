@@ -7,11 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Common\" />
-    <Folder Include="Models\Book\" />
-    <Folder Include="Models\Author\" />
-    <Folder Include="Models\Genre\" />
-    <Folder Include="Models\User\" />
+    <Folder Include="Entities\Common\" />
+    <Folder Include="Entities\Book\" />
+    <Folder Include="Entities\Author\" />
+    <Folder Include="Entities\Genre\" />
   </ItemGroup>
 
 </Project>
