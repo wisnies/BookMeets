@@ -13,4 +13,8 @@
     <Folder Include="Entities\Genre\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" Version="1.2.1" />
+  </ItemGroup>
+
 </Project>

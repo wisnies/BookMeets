@@ -17,23 +17,21 @@ namespace Infrastructure.Authentication
       _jwtSettings = options.Value;
     }
 
-    public string GenerateAccessToken(string email)
+    public string GenerateAccessToken(int id, string email)
     {
 
-      var signingCredentials = new SigningCredentials(
-        new SymmetricSecurityKey(
-          Encoding.UTF8.GetBytes(_jwtSettings.Key)),
-          SecurityAlgorithms.HmacSha256);
+      var signingCredentials = CreateSigningCredentials();
 
       var claims = new[]
       {
-        new Claim(JwtRegisteredClaimNames.Sub, email),
+        new Claim(JwtRegisteredClaimNames.Email, email),
+        new Claim(JwtRegisteredClaimNames.Sub, id.ToString())
       };
 
       var securityToken = new JwtSecurityToken(
         issuer: _jwtSettings.Issuer,
         audience: _jwtSettings.Audience,
-        expires: DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationTimeInMinutes),
+        expires: DateTime.UtcNow.AddMinutes(_jwtSettings.AccessExpirationTimeInMinutes),
         claims: claims,
         signingCredentials: signingCredentials);
 
@@ -48,6 +46,15 @@ namespace Infrastructure.Authentication
         cryptoProvider.GetBytes(byteArray);
         return Convert.ToBase64String(byteArray);
       }
+
+    }
+
+    private SigningCredentials CreateSigningCredentials()
+    {
+      return new SigningCredentials(
+        new SymmetricSecurityKey(
+          Encoding.UTF8.GetBytes(_jwtSettings.Key)),
+          SecurityAlgorithms.HmacSha256);
     }
   }
 }

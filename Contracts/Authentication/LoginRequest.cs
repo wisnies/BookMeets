@@ -2,7 +2,7 @@
 
 namespace Contracts.Authentication
 {
-  public class AuthRequest
+  public class LoginRequest
   {
     [Required]
     public string Email { get; set; }

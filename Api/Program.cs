@@ -1,3 +1,5 @@
+using Api;
+using Application;
 using Infrastructure;
 using Microsoft.OpenApi.Models;
 
@@ -5,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.ConfigureInfrastructureServices(builder.Configuration);
+builder.Services.ConfigureApplicationServices();
+builder.Services.ConfigurePresentationServices();
 
 
 
@@ -53,6 +57,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

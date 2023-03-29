@@ -1,6 +1,10 @@
 ﻿using Application.Common.Interfaces.Authentication;
+using Application.Common.Interfaces.Persistence;
 using Infrastructure.Authentication;
+using Infrastructure.Persistence;
+using Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -16,6 +20,7 @@ namespace Infrastructure
       ConfigurationManager configuration)
     {
       services.AddAuth(configuration);
+      services.AddPersitence(configuration);
 
       return services;
     }
@@ -24,8 +29,12 @@ namespace Infrastructure
       this IServiceCollection services,
       ConfigurationManager configuration)
     {
-      //services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
 
+      var bcryptSettings = new BcryptSettings();
+      configuration.Bind(BcryptSettings.SectionName, bcryptSettings);
+      services.AddSingleton(Options.Create(bcryptSettings));
+
+      services.AddTransient<IPasswordService, PasswordService>();
 
       var jwtSettings = new JwtSettings();
       configuration.Bind(JwtSettings.SectionName, jwtSettings);
@@ -36,8 +45,8 @@ namespace Infrastructure
       TokenValidationParameters tokenValidationParameters
         = new TokenValidationParameters()
         {
-          ValidateIssuer = true,
-          ValidateAudience = true,
+          ValidateIssuer = false,
+          ValidateAudience = false,
           ValidateLifetime = true,
           ValidateIssuerSigningKey = true,
           ValidIssuer = jwtSettings.Issuer,
@@ -53,6 +62,20 @@ namespace Infrastructure
       }).AddJwtBearer(jwtOptions =>
       {
         jwtOptions.TokenValidationParameters = tokenValidationParameters;
+      });
+      return services;
+    }
+
+    public static IServiceCollection AddPersitence(
+      this IServiceCollection services,
+      ConfigurationManager configuration)
+    {
+      services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
+      services.AddDbContext<BookMeetsDbContext>(options =>
+      {
+        options.UseSqlServer(
+          configuration.GetConnectionString("BookMeetsConnection"), b => b.MigrationsAssembly("Api"));
       });
       return services;
     }
