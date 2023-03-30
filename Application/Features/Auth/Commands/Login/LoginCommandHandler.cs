@@ -4,6 +4,7 @@ using Contracts.Authentication;
 using Domain.Common.Errors;
 using Domain.Entities.User;
 using Domain.Entities.UserRefreshToken;
+using Domain.Entities.UserRole;
 using ErrorOr;
 using MediatR;
 
@@ -14,17 +15,20 @@ namespace Application.Features.Auth.Commands.Login
   {
     private readonly IUserRepository _userRepository;
     private readonly IUserRefreshTokenRepository _userRefreshTokenRepository;
+    private readonly IUserRoleRepository _userRoleRepository;
     private readonly ITokenGenerator _tokenGenerator;
     private readonly IPasswordService _passwordService;
 
     public LoginCommandHandler(
       IUserRepository userRepository,
       IUserRefreshTokenRepository userRefreshTokenRepository,
+      IUserRoleRepository userRoleRepository,
       ITokenGenerator tokenGenerator,
       IPasswordService passwordService)
     {
       _userRepository = userRepository;
       _userRefreshTokenRepository = userRefreshTokenRepository;
+      _userRoleRepository = userRoleRepository;
       _tokenGenerator = tokenGenerator;
       _passwordService = passwordService;
     }
@@ -41,9 +45,14 @@ namespace Application.Features.Auth.Commands.Login
       {
         return new[] { Errors.Authentication.InvalidCredentials };
       }
+      if (await _userRoleRepository.GetUserRoleByUserIdAsync(user.Id) is not UserRole userRole)
+      {
+        return Errors.User.RoleNotFound;
+      }
 
-      var accessToken = _tokenGenerator.GenerateAccessToken(user.Id, request.Email);
+      var accessToken = _tokenGenerator.GenerateAccessToken(user.Id, request.Email, userRole.Role);
       var refreshToken = _tokenGenerator.GenerateRefreshToken();
+
 
       var userRefreshToken = new UserRefreshToken()
       {

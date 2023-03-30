@@ -4,7 +4,7 @@ using Contracts.Authentication;
 using Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
-using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Application.Features.Auth.Commands.RefreshToken
 {
@@ -40,9 +40,11 @@ namespace Application.Features.Auth.Commands.RefreshToken
       }
 
       string email = request.ExpiredToken.Claims.
-        FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Email).Value;
+        FirstOrDefault(x => x.Type == ClaimTypes.Email).Value;
       string strId = request.ExpiredToken.Claims.
-        FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+        FirstOrDefault(x => x.Type == ClaimTypes.PrimarySid).Value;
+      string role = request.ExpiredToken.Claims.
+        FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
 
       int userId;
       bool parsed = int.TryParse(strId, out userId);
@@ -52,7 +54,7 @@ namespace Application.Features.Auth.Commands.RefreshToken
         return Errors.Authentication.InvalidCredentials;
       }
 
-      var accessToken = _tokenGenerator.GenerateAccessToken(userId, email);
+      var accessToken = _tokenGenerator.GenerateAccessToken(userId, email, role);
 
       userRefreshToken.AccessToken = accessToken;
 

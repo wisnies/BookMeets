@@ -2,7 +2,7 @@
 {
   public interface ITokenGenerator
   {
-    public string GenerateAccessToken(int id, string email);
+    public string GenerateAccessToken(int id, string email, string role);
     public string GenerateRefreshToken();
   }
 }

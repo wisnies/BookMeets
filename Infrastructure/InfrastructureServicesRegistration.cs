@@ -72,6 +72,7 @@ namespace Infrastructure
     {
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
+      services.AddScoped<IUserRoleRepository, UserRoleRepository>();
       services.AddDbContext<BookMeetsDbContext>(options =>
       {
         options.UseSqlServer(

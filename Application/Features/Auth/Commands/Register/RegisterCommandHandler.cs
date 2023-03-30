@@ -2,6 +2,7 @@
 using Application.Common.Interfaces.Persistence;
 using Domain.Common.Errors;
 using Domain.Entities.User;
+using Domain.Entities.UserRole;
 using ErrorOr;
 using MediatR;
 
@@ -11,13 +12,16 @@ namespace Application.Features.Auth.Commands.Register
     : IRequestHandler<RegisterCommand, ErrorOr<Unit>>
   {
     private readonly IUserRepository _userRepository;
+    private readonly IUserRoleRepository _userRoleRepository;
     private readonly IPasswordService _passwordService;
 
     public RegisterCommandHandler(
       IUserRepository userRepository,
+      IUserRoleRepository userRoleRepository,
       IPasswordService passwordService)
     {
       _userRepository = userRepository;
+      _userRoleRepository = userRoleRepository;
       _passwordService = passwordService;
     }
 
@@ -39,6 +43,13 @@ namespace Application.Features.Auth.Commands.Register
 
       var dbUser = await _userRepository.AddAsync(user);
 
+      var userRole = new UserRole()
+      {
+        UserId = dbUser.Id,
+        Role = "User"
+      };
+
+      await _userRoleRepository.AddAsync(userRole);
       return Unit.Value;
     }
   }

@@ -1,6 +1,7 @@
 ﻿using Domain.Common.Models;
 using Domain.Entities.User;
 using Domain.Entities.UserRefreshToken;
+using Domain.Entities.UserRole;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
@@ -28,5 +29,6 @@ namespace Infrastructure.Persistence
 
     public DbSet<User> Users { get; set; }
     public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
+    public DbSet<UserRole> UserRoles { get; set; }
   }
 }

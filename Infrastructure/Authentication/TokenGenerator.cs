@@ -17,15 +17,16 @@ namespace Infrastructure.Authentication
       _jwtSettings = options.Value;
     }
 
-    public string GenerateAccessToken(int id, string email)
+    public string GenerateAccessToken(int id, string email, string role)
     {
 
       var signingCredentials = CreateSigningCredentials();
 
       var claims = new[]
       {
-        new Claim(JwtRegisteredClaimNames.Email, email),
-        new Claim(JwtRegisteredClaimNames.Sub, id.ToString())
+        new Claim(ClaimTypes.Email, email),
+        new Claim(ClaimTypes.PrimarySid, id.ToString()),
+        new Claim(ClaimTypes.Role, role)
       };
 
       var securityToken = new JwtSecurityToken(
