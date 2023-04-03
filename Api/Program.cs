@@ -1,4 +1,5 @@
 using Api;
+using Api.Data;
 using Application;
 using Infrastructure;
 using Microsoft.OpenApi.Models;
@@ -53,6 +54,12 @@ if (app.Environment.IsDevelopment())
 {
   app.UseSwagger();
   app.UseSwaggerUI();
+}
+
+// Seed
+if (args.Length == 1 && args[0].ToLower() == "dbseed")
+{
+  DbSeed.Seed(app);
 }
 
 app.UseHttpsRedirection();

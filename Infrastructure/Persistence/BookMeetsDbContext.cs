@@ -34,6 +34,7 @@ namespace Infrastructure.Persistence
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<User>().HasIndex(e => e.Email).IsUnique();
+      modelBuilder.Entity<Genre>().HasIndex(e => e.Title).IsUnique();
 
 
       modelBuilder.Entity<BookAuthor>()

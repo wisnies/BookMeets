@@ -73,6 +73,9 @@ namespace Infrastructure
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
       services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+      services.AddScoped<IBookRepository, BookRepository>();
+      services.AddScoped<IAuthorRepository, AuthorRepository>();
+      services.AddScoped<IGenreRepository, GenreRepository>();
       services.AddDbContext<BookMeetsDbContext>(options =>
       {
         options.UseSqlServer(

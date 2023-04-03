@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Application.DTOs.Book;
+using Application.Features.Book.Queries.BookList;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,14 +18,11 @@ namespace Api.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetBookList()
     {
-      //var command = 1;
-      //ErrorOr<ICollection<BookListDto>> response = await _mediator.Send(command);
-      //return response.Match(
-      //  response => Ok(response),
-      //  errors => Problem(errors));
-      return Ok();
+      var query = new BookListQuery();
+      ICollection<BookListItemDto> response = await _mediator.Send(query);
+      return Ok(response);
     }
   }
 }

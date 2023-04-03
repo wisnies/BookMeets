@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(BookMeetsDbContext))]
-    [Migration("20230403121652_DomainEntities")]
+    [Migration("20230403124734_DomainEntities")]
     partial class DomainEntities
     {
         /// <inheritdoc />
@@ -125,9 +125,12 @@ namespace Api.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Genres");
                 });

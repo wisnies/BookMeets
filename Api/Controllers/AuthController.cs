@@ -69,31 +69,6 @@ namespace Api.Controllers
         response => Ok(response),
         errors => Problem(errors));
     }
-
-    [Route("[action]")]
-    [HttpGet]
-    [Authorize]
-    public IActionResult Test()
-    {
-      return Ok();
-    }
-
-    [Route("[action]")]
-    [HttpGet]
-    [Authorize(Roles = "Admin")]
-    public IActionResult Test1()
-    {
-      return Ok();
-    }
-
-    [Route("[action]")]
-    [HttpGet]
-    [Authorize(Roles = "User")]
-    public IActionResult Test2()
-    {
-      return Ok();
-    }
-
     private JwtSecurityToken GetJwtToken(string expiredToken)
     {
       JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
