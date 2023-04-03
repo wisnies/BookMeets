@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\Common\" />
-    <Folder Include="Entities\Book\" />
-    <Folder Include="Entities\Author\" />
-    <Folder Include="Entities\Genre\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="ErrorOr" Version="1.2.1" />
   </ItemGroup>
 

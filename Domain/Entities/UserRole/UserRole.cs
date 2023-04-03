@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.UserRole
 {
-  public sealed class UserRole : BaseEntity
+  public class UserRole : BaseEntity
   {
     public int UserId { get; set; }
     [ForeignKey("UserId")]
