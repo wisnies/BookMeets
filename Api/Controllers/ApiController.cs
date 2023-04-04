@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Api.Controllers
 {
-  [Route("api/")]
+  [Route("api")]
   [ApiController]
   public class ApiController : ControllerBase
   {

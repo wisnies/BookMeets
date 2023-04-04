@@ -1,8 +1,10 @@
 ﻿using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
+using Application.Common.Interfaces.Services;
 using Infrastructure.Authentication;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -81,6 +83,20 @@ namespace Infrastructure
         options.UseSqlServer(
           configuration.GetConnectionString("BookMeetsConnection"), b => b.MigrationsAssembly("Api"));
       });
+      return services;
+    }
+
+    public static IServiceCollection AddServices(
+      this IServiceCollection services,
+      ConfigurationManager configuration)
+    {
+
+      var cloudinarySettings = new CloudinarySettings();
+      configuration.Bind(CloudinarySettings.SectionName, cloudinarySettings);
+      services.AddSingleton(Options.Create(cloudinarySettings));
+
+      services.AddScoped<ICloudinaryService, CloudinaryService>();
+
       return services;
     }
   }
