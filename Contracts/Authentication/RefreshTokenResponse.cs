@@ -1,4 +1,10 @@
-﻿namespace Contracts.Authentication
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contracts.Authentication
 {
-  public record RefreshTokenResponse(string accessToken);
+  public class RefreshTokenResponse
+  {
+    [Required]
+    public string AccessToken { get; set; } = null!;
+  }
 }

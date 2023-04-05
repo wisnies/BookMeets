@@ -1,5 +1,4 @@
 ﻿namespace Contracts.Author
 {
-  public record CreateAuthorRequest(
-  );
+  public class CreateAuthorRequest { }
 }

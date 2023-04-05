@@ -1,5 +1,13 @@
-﻿namespace Contracts.Genre
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contracts.Genre
 {
-  public record CreateGenreRequest(
-  );
+  public class CreateGenreRequest
+  {
+    [Required]
+    public string Title { get; set; } = null!;
+    [Required]
+    public string Description { get; set; } = null!;
+  }
+
 }

@@ -1,5 +1,12 @@
-﻿namespace Contracts.Authentication
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contracts.Authentication
 {
-  public record RefreshTokenRequest(
-  string ExpiredToken, string RefreshToken);
+  public class RefreshTokenRequest
+  {
+    [Required]
+    public string ExpiredToken { get; set; } = null!;
+    [Required]
+    public string RefreshToken { get; set; } = null!;
+  }
 }

@@ -5,8 +5,12 @@ using Application.Features.Auth.Commands.Login;
 using Application.Features.Auth.Commands.Logout;
 using Application.Features.Auth.Commands.RefreshToken;
 using Application.Features.Auth.Commands.Register;
+using Application.Features.Genre.Commands.Create;
+using Application.Features.Genre.Commands.Delete;
+using Application.Features.Genre.Commands.Upsert;
 using AutoMapper;
 using Contracts.Authentication;
+using Contracts.Genre;
 using Domain.Entities.Author;
 using Domain.Entities.Book;
 using Domain.Entities.Genre;
@@ -17,17 +21,30 @@ namespace Api.Profiles
   {
     public MappingProfile()
     {
+      // AUTH PROFILES
       CreateMap<RegisterRequest, RegisterCommand>();
       CreateMap<LoginRequest, LoginCommand>();
       CreateMap<LogoutRequest, LogoutCommand>();
       CreateMap<RefreshTokenRequest, RefreshTokenCommand>();
 
-      CreateMap<Book, BookListItemDto>();
-      CreateMap<Book, BookDto>();
+      // AUTHOR PROFILES
       CreateMap<Author, AuthorMinimalListItemDto>();
       CreateMap<Author, AuthorNoBooksDto>();
+
+      // BOOK PROFILES
+      CreateMap<Book, BookListItemDto>();
+      CreateMap<Book, BookDto>();
+
+      // GENRE PROFILES
       CreateMap<Genre, GenreMinimalListItemDto>();
       CreateMap<Genre, GenreNoBooksDto>();
+      CreateMap<CreateGenreRequest, CreateGenreCommand>();
+      CreateMap<(UpsertGenreRequest, int genreId), UpsertGenreCommand>()
+        .ForMember(d => d.Id, opt => opt.MapFrom(src => src.genreId))
+        .ForMember(d => d.Title, opt => opt.MapFrom(src => src.Item1.Title))
+        .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Item1.Description));
+      CreateMap<int, DeleteGenreCommand>();
+
     }
   }
 }

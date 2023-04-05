@@ -1,5 +1,4 @@
 ﻿namespace Contracts.Book
 {
-  public record CreateBookRequest(
-  );
+  public class CreateBookRequest { }
 }

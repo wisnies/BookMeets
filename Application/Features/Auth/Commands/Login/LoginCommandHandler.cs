@@ -65,7 +65,13 @@ namespace Application.Features.Auth.Commands.Login
 
       await _userRefreshTokenRepository.AddAsync(userRefreshToken);
 
-      return new AuthResponse(user.Id, user.UserName, accessToken, refreshToken);
+      return new AuthResponse()
+      {
+        UserId = user.Id,
+        UserName = user.UserName,
+        AccessToken = accessToken,
+        RefreshToken = refreshToken
+      };
     }
   }
 }

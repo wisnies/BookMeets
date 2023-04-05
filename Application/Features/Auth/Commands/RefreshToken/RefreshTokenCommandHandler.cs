@@ -46,8 +46,7 @@ namespace Application.Features.Auth.Commands.RefreshToken
       string role = request.ExpiredToken.Claims.
         FirstOrDefault(x => x.Type == ClaimTypes.Role).Value;
 
-      int userId;
-      bool parsed = int.TryParse(strId, out userId);
+      bool parsed = int.TryParse(strId, out int userId);
 
       if (!parsed)
       {
@@ -59,7 +58,10 @@ namespace Application.Features.Auth.Commands.RefreshToken
       userRefreshToken.AccessToken = accessToken;
 
       await _userRefreshTokenRepository.UpdateAsync(userRefreshToken);
-      return new RefreshTokenResponse(accessToken);
+      return new RefreshTokenResponse()
+      {
+        AccessToken = accessToken,
+      };
     }
   }
 }

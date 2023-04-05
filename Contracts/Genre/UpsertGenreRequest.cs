@@ -1,5 +1,12 @@
-﻿namespace Contracts.Genre
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contracts.Genre
 {
-  public record UpsertGenreRequest(
-  );
+  public class UpsertGenreRequest
+  {
+    [Required]
+    public string Title { get; set; } = null!;
+    [Required]
+    public string Description { get; set; } = null!;
+  }
 }

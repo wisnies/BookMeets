@@ -1,4 +1,4 @@
 ﻿namespace Contracts.Book
 {
-  public record UpsertBookRequest();
+  public class UpsertBookRequest { }
 }

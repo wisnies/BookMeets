@@ -1,5 +1,11 @@
-﻿namespace Contracts.Authentication
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Contracts.Authentication
 {
-  public record LogoutRequest(
-    string RefreshToken);
+  public class LogoutRequest
+  {
+    [Required]
+    public string RefreshToken { get; set; } = null!;
+  }
+
 }
