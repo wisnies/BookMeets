@@ -23,6 +23,7 @@ namespace Infrastructure
     {
       services.AddAuth(configuration);
       services.AddPersitence(configuration);
+      services.AddServices(configuration);
 
       return services;
     }

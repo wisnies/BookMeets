@@ -40,8 +40,8 @@ namespace Infrastructure.Persistence.Repositories
           Title = bg.Book.Title,
           Description = bg.Book.Description,
           Authors = bg.Book.Authors
-          .Where(ba => ba.BookId == bg.BookId)
-          .Select(ba => _mapper.Map<AuthorMinimalListItemDto>(ba.Author)).ToList(),
+          .Where(iba => iba.BookId == bg.BookId)
+          .Select(iba => _mapper.Map<AuthorMinimalListItemDto>(iba.Author)).ToList(),
           Genres =
           bg.Book.Genres
           .Where(ibg => ibg.BookId == bg.BookId)
