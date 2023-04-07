@@ -3,5 +3,9 @@ using MediatR;
 
 namespace Application.Features.Book.Queries.BookList
 {
-  public record GetBookListQuery() : IRequest<ICollection<BookListItemDto>>;
+  public class GetBookListQuery : IRequest<BookListItemPaginatedResponseDto>
+  {
+    public int After { get; set; }
+    public int Take { get; set; }
+  };
 }

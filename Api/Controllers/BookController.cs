@@ -36,10 +36,11 @@ namespace Api.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetBookList()
+    public async Task<IActionResult> GetBookList([FromQuery] GetBookListRequest request)
     {
-      var query = new GetBookListQuery();
-      ICollection<BookListItemDto> response = await _mediator.Send(query);
+      var query = _mapper.Map<GetBookListQuery>(request);
+
+      BookListItemPaginatedResponseDto response = await _mediator.Send(query);
       return Ok(response);
     }
 

@@ -26,10 +26,10 @@ namespace Api.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetGenreMinimalList()
+    public async Task<IActionResult> GetGenreMinimalList([FromQuery] GetGenreMinimalListRequest request)
     {
-      var query = new GetGenreMinimalListQuery();
-      IEnumerable<GenreMinimalListItemDto> genres = await _mediator.Send(query);
+      var query = _mapper.Map<GetGenreMinimalListQuery>(request);
+      GenreMinimalListPagniatedResponseDto genres = await _mediator.Send(query);
 
       return Ok(genres);
     }

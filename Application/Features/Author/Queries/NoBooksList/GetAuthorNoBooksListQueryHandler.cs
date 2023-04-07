@@ -5,7 +5,7 @@ using MediatR;
 namespace Application.Features.Author.Queries.NoBooksList
 {
   public class GetAuthorNoBooksListQueryHandler
-    : IRequestHandler<GetAuthorNoBooksListQuery, IEnumerable<AuthorNoBooksDto>>
+    : IRequestHandler<GetAuthorNoBooksListQuery, AuthorNoBooksPaginatedResponseDto>
   {
 
     private readonly IAuthorRepository _authorRepository;
@@ -15,11 +15,16 @@ namespace Application.Features.Author.Queries.NoBooksList
       _authorRepository = authorRepository;
     }
 
-    public async Task<IEnumerable<AuthorNoBooksDto>> Handle(
+    public async Task<AuthorNoBooksPaginatedResponseDto> Handle(
       GetAuthorNoBooksListQuery request,
       CancellationToken cancellationToken)
     {
-      return await _authorRepository.GetAuthorNoBooksListAsync();
+      var authors = await _authorRepository.GetAuthorNoBooksListAsync(request.After, request.Take);
+      return new AuthorNoBooksPaginatedResponseDto()
+      {
+        HasMore = authors.Count() < request.Take ? false : true,
+        Data = authors
+      };
     }
   }
 }

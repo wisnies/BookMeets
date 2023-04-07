@@ -8,7 +8,7 @@ namespace Application.Common.Interfaces.Persistence
   {
     Task<Book> GetNoTrackingAsync(int id);
     Task<BookDto> GetBookDetailsAsync(int id);
-    Task<ICollection<BookListItemDto>> GetBookListItemsAsync();
+    Task<ICollection<BookListItemDto>> GetBookListItemsAsync(int after, int take);
     Task<bool> AddBookAuthorsAsync(List<BookAuthor> bookAuthors);
     Task<bool> AddBookGenresAsync(List<BookGenre> bookGenres);
     Task<bool> DeleteBookAuthorAsync(BookAuthor bookGenre);

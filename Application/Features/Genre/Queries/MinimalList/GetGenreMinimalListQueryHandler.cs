@@ -5,7 +5,7 @@ using MediatR;
 namespace Application.Features.Genre.Queries.List
 {
   public class GetGenreMinimalListQueryHandler
-    : IRequestHandler<GetGenreMinimalListQuery, IEnumerable<GenreMinimalListItemDto>>
+    : IRequestHandler<GetGenreMinimalListQuery, GenreMinimalListPagniatedResponseDto>
   {
 
     private readonly IGenreRepository _genreRepository;
@@ -15,11 +15,16 @@ namespace Application.Features.Genre.Queries.List
       _genreRepository = genreRepository;
     }
 
-    public async Task<IEnumerable<GenreMinimalListItemDto>> Handle(
+    public async Task<GenreMinimalListPagniatedResponseDto> Handle(
       GetGenreMinimalListQuery request,
       CancellationToken cancellationToken)
     {
-      return await _genreRepository.GetMinimalListAsync();
+      var genres = await _genreRepository.GetMinimalListAsync(request.After, request.Take);
+      return new GenreMinimalListPagniatedResponseDto()
+      {
+        HasMore = genres.Count() < request.Take ? false : true,
+        Data = genres
+      };
     }
   }
 }

@@ -51,9 +51,13 @@ namespace Infrastructure.Persistence.Repositories
       }).FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<IEnumerable<GenreMinimalListItemDto>> GetMinimalListAsync()
+    public async Task<IEnumerable<GenreMinimalListItemDto>> GetMinimalListAsync(int after, int take)
     {
-      return await _context.Genres.Select(e => _mapper.Map<GenreMinimalListItemDto>(e)).ToListAsync();
+      return await _context.Genres
+        .OrderBy(e => e.Id)
+        .Where(e => e.Id > after)
+        .Take(take)
+        .Select(e => _mapper.Map<GenreMinimalListItemDto>(e)).ToListAsync();
     }
 
     public async Task<Genre> GetNoTrackingAsync(int id)

@@ -3,5 +3,9 @@ using MediatR;
 
 namespace Application.Features.Genre.Queries.List
 {
-  public record GetGenreMinimalListQuery : IRequest<IEnumerable<GenreMinimalListItemDto>>;
+  public class GetGenreMinimalListQuery : IRequest<GenreMinimalListPagniatedResponseDto>
+  {
+    public int After { get; set; }
+    public int Take { get; set; }
+  }
 }

@@ -32,10 +32,10 @@ namespace Api.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAuthorNoBooksList()
+    public async Task<IActionResult> GetAuthorNoBooksList([FromQuery] GetAuthorNoBooksListRequest request)
     {
-      var query = new GetAuthorNoBooksListQuery();
-      IEnumerable<AuthorNoBooksDto> authors = await _mediator.Send(query);
+      var query = _mapper.Map<GetAuthorNoBooksListQuery>(request);
+      AuthorNoBooksPaginatedResponseDto authors = await _mediator.Send(query);
 
       return Ok(authors);
     }

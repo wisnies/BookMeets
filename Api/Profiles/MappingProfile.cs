@@ -7,11 +7,14 @@ using Application.Features.Auth.Commands.RefreshToken;
 using Application.Features.Auth.Commands.Register;
 using Application.Features.Author.Commands.Create;
 using Application.Features.Author.Commands.Upsert;
+using Application.Features.Author.Queries.NoBooksList;
 using Application.Features.Book.Commands.Create;
 using Application.Features.Book.Commands.Edit;
+using Application.Features.Book.Queries.BookList;
 using Application.Features.Genre.Commands.Create;
 using Application.Features.Genre.Commands.Delete;
 using Application.Features.Genre.Commands.Upsert;
+using Application.Features.Genre.Queries.List;
 using AutoMapper;
 using Contracts.Authentication;
 using Contracts.Author;
@@ -36,6 +39,7 @@ namespace Api.Profiles
       // AUTHOR PROFILES
       CreateMap<Author, AuthorMinimalListItemDto>();
       CreateMap<Author, AuthorNoBooksDto>();
+      CreateMap<GetAuthorNoBooksListRequest, GetAuthorNoBooksListQuery>();
       CreateMap<(CreateAuthorRequest, string imageUrl, string imagePublicId), CreateAuthorCommand>()
         .ForMember(d => d.FullName, opt => opt.MapFrom(src => src.Item1.FullName))
         .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Item1.Description))
@@ -51,6 +55,7 @@ namespace Api.Profiles
       // BOOK PROFILES
       CreateMap<Book, BookListItemDto>();
       CreateMap<Book, BookDto>();
+      CreateMap<GetBookListRequest, GetBookListQuery>();
 
       CreateMap<(CreateBookRequest, string imageUrl, string imagePublicId), CreateBookCommand>()
         .ForMember(d => d.Title, opt => opt.MapFrom(src => src.Item1.Title))
@@ -76,6 +81,7 @@ namespace Api.Profiles
       // GENRE PROFILES
       CreateMap<Genre, GenreMinimalListItemDto>();
       CreateMap<Genre, GenreNoBooksDto>();
+      CreateMap<GetGenreMinimalListRequest, GetGenreMinimalListQuery>();
       CreateMap<CreateGenreRequest, CreateGenreCommand>();
       CreateMap<(UpsertGenreRequest, int genreId), UpsertGenreCommand>()
         .ForMember(d => d.Id, opt => opt.MapFrom(src => src.genreId))

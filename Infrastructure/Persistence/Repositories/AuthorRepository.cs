@@ -47,9 +47,13 @@ namespace Infrastructure.Persistence.Repositories
       }).FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<IEnumerable<AuthorNoBooksDto>> GetAuthorNoBooksListAsync()
+    public async Task<IEnumerable<AuthorNoBooksDto>> GetAuthorNoBooksListAsync(int after, int take)
     {
-      return await _context.Authors.Select(e => _mapper.Map<AuthorNoBooksDto>(e)).ToListAsync();
+      return await _context.Authors
+        .OrderBy(e => e.Id)
+        .Where(e => e.Id > after)
+        .Take(take)
+        .Select(e => _mapper.Map<AuthorNoBooksDto>(e)).ToListAsync();
     }
 
     public async Task<Author> GetNoTrackingAsync(int id)

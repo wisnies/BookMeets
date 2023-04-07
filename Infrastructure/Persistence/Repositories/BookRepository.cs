@@ -43,22 +43,26 @@ namespace Infrastructure.Persistence.Repositories
       }).FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<ICollection<BookListItemDto>> GetBookListItemsAsync()
+    public async Task<ICollection<BookListItemDto>> GetBookListItemsAsync(int after, int take)
     {
-      return await _context.Books.Select(b => new BookListItemDto()
-      {
-        Id = b.Id,
-        Title = b.Title,
-        CoverImageUrl = b.CoverImageUrl,
-        Authors =
+      return await _context.Books
+        .OrderBy(e => e.Id)
+        .Where(e => e.Id > after)
+        .Take(take)
+        .Select(b => new BookListItemDto()
+        {
+          Id = b.Id,
+          Title = b.Title,
+          CoverImageUrl = b.CoverImageUrl,
+          Authors =
           b.Authors
           .Where(ba => ba.BookId == b.Id)
           .Select(ba => _mapper.Map<AuthorMinimalListItemDto>(ba.Author)).ToList(),
-        Genres =
+          Genres =
           b.Genres
           .Where(bg => bg.BookId == b.Id)
           .Select(bg => _mapper.Map<GenreMinimalListItemDto>(bg.Genre)).ToList()
-      }).ToListAsync();
+        }).ToListAsync();
     }
 
     public async Task<Book> GetNoTrackingAsync(int id)

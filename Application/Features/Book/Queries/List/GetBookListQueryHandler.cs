@@ -5,18 +5,24 @@ using MediatR;
 namespace Application.Features.Book.Queries.BookList
 {
   public class GetBookListQueryHandler
-    : IRequestHandler<GetBookListQuery, ICollection<BookListItemDto>>
+    : IRequestHandler<GetBookListQuery, BookListItemPaginatedResponseDto>
   {
     private readonly IBookRepository _bookRepository;
     public GetBookListQueryHandler(IBookRepository bookRepository)
     {
       _bookRepository = bookRepository;
     }
-    public async Task<ICollection<BookListItemDto>> Handle(
+    public async Task<BookListItemPaginatedResponseDto> Handle(
       GetBookListQuery request,
       CancellationToken cancellationToken)
     {
-      return await _bookRepository.GetBookListItemsAsync();
+      var books = await _bookRepository.GetBookListItemsAsync(request.After, request.Take);
+
+      return new BookListItemPaginatedResponseDto()
+      {
+        HasMore = books.Count() < request.Take ? false : true,
+        Data = books,
+      };
     }
   }
 }
