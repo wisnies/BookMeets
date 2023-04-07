@@ -8,5 +8,6 @@ namespace Application.Common.Interfaces.Persistence
     Task<Author> GetNoTrackingAsync(int id);
     Task<AuthorDto> GetAuthorDetailsAsync(int id);
     Task<IEnumerable<AuthorNoBooksDto>> GetAuthorNoBooksListAsync();
+    Task<List<Author>> GetSelectedAuthorsAsync(int[] authorIds);
   }
 }

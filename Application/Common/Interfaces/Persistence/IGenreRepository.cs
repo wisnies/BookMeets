@@ -10,5 +10,6 @@ namespace Application.Common.Interfaces.Persistence
 
     Task<IEnumerable<GenreMinimalListItemDto>> GetMinimalListAsync();
     Task<GenreDto> GetGenreDetailsAsync(int id);
+    Task<List<Genre>> GetSelectedGenresAsync(int[] genreIds);
   }
 }

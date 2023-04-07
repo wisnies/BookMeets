@@ -106,7 +106,7 @@ namespace Api.Controllers
           {
             var errors = new List<Error>
           {
-            Errors.Author.UnableToDeleteOldImage
+            Errors.File.UnableToDeleteOldImage
           };
             return Problem(errors);
           }

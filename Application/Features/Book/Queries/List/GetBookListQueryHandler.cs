@@ -4,19 +4,19 @@ using MediatR;
 
 namespace Application.Features.Book.Queries.BookList
 {
-  public class BookListQueryHandler
-    : IRequestHandler<BookListQuery, ICollection<BookListItemDto>>
+  public class GetBookListQueryHandler
+    : IRequestHandler<GetBookListQuery, ICollection<BookListItemDto>>
   {
     private readonly IBookRepository _bookRepository;
-    public BookListQueryHandler(IBookRepository bookRepository)
+    public GetBookListQueryHandler(IBookRepository bookRepository)
     {
       _bookRepository = bookRepository;
     }
     public async Task<ICollection<BookListItemDto>> Handle(
-      BookListQuery request,
+      GetBookListQuery request,
       CancellationToken cancellationToken)
     {
-      return await _bookRepository.GetBookListItems();
+      return await _bookRepository.GetBookListItemsAsync();
     }
   }
 }

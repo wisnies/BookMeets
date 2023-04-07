@@ -56,5 +56,10 @@ namespace Infrastructure.Persistence.Repositories
     {
       return await _context.Authors.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
     }
+
+    public async Task<List<Author>> GetSelectedAuthorsAsync(int[] authorIds)
+    {
+      return await _context.Authors.Where(e => authorIds.Contains(e.Id)).ToListAsync();
+    }
   }
 }

@@ -12,7 +12,7 @@ namespace Application.DTOs.Book
     public string CoverType { get; set; }
     public string CoverImageUrl { get; set; }
     public string CoverImagePublicId { get; set; }
-    public ICollection<GenreNoBooksDto> Genres { get; set; }
+    public ICollection<GenreMinimalListItemDto> Genres { get; set; }
     public int NumberOfPages { get; set; }
     public DateTime FirstPublished { get; set; }
   }

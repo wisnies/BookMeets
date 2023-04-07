@@ -13,6 +13,9 @@ namespace Domain.Common.Errors
       public static Error InvalidMimeType => Error.Validation(
         code: "File.InvalidMimeType",
         description: "Uploaded images must be of type: bmp, jpg, jpeg, png.");
+      public static Error UnableToDeleteOldImage => Error.Unexpected(
+        code: "File.UnableToDeleteOldImage",
+        description: "Unable to delete previous image, try again later.");
     }
   }
 }

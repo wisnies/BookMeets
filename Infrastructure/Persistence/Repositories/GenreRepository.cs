@@ -60,5 +60,10 @@ namespace Infrastructure.Persistence.Repositories
     {
       return await _context.Genres.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
     }
+
+    public async Task<List<Genre>> GetSelectedGenresAsync(int[] genreIds)
+    {
+      return await _context.Genres.Where(e => genreIds.Contains(e.Id)).ToListAsync();
+    }
   }
 }

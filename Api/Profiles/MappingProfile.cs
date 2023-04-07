@@ -7,12 +7,15 @@ using Application.Features.Auth.Commands.RefreshToken;
 using Application.Features.Auth.Commands.Register;
 using Application.Features.Author.Commands.Create;
 using Application.Features.Author.Commands.Upsert;
+using Application.Features.Book.Commands.Create;
+using Application.Features.Book.Commands.Edit;
 using Application.Features.Genre.Commands.Create;
 using Application.Features.Genre.Commands.Delete;
 using Application.Features.Genre.Commands.Upsert;
 using AutoMapper;
 using Contracts.Authentication;
 using Contracts.Author;
+using Contracts.Book;
 using Contracts.Genre;
 using Domain.Entities.Author;
 using Domain.Entities.Book;
@@ -48,6 +51,27 @@ namespace Api.Profiles
       // BOOK PROFILES
       CreateMap<Book, BookListItemDto>();
       CreateMap<Book, BookDto>();
+
+      CreateMap<(CreateBookRequest, string imageUrl, string imagePublicId), CreateBookCommand>()
+        .ForMember(d => d.Title, opt => opt.MapFrom(src => src.Item1.Title))
+        .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Item1.Description))
+        .ForMember(d => d.CoverType, opt => opt.MapFrom(src => src.Item1.CoverType))
+        .ForMember(d => d.NumberOfPages, opt => opt.MapFrom(src => src.Item1.NumberOfPages))
+        .ForMember(d => d.FirstPublished, opt => opt.MapFrom(src => src.Item1.FirstPublished))
+        .ForMember(d => d.AuthorIds, opt => opt.MapFrom(src => src.Item1.AuthorIds.Distinct()))
+        .ForMember(d => d.GenreIds, opt => opt.MapFrom(src => src.Item1.GenreIds.Distinct()))
+        .ForMember(d => d.CoverImageUrl, opt => opt.MapFrom(src => src.imageUrl))
+        .ForMember(d => d.CoverImagePublicId, opt => opt.MapFrom(src => src.imagePublicId));
+
+      CreateMap<(EditBookRequest, string imageUrl, string imagePublicId, int bookId), EditBookCommand>()
+        .ForMember(d => d.Id, opt => opt.MapFrom(src => src.bookId))
+        .ForMember(d => d.Title, opt => opt.MapFrom(src => src.Item1.Title))
+        .ForMember(d => d.Description, opt => opt.MapFrom(src => src.Item1.Description))
+        .ForMember(d => d.CoverType, opt => opt.MapFrom(src => src.Item1.CoverType))
+        .ForMember(d => d.NumberOfPages, opt => opt.MapFrom(src => src.Item1.NumberOfPages))
+        .ForMember(d => d.FirstPublished, opt => opt.MapFrom(src => src.Item1.FirstPublished))
+        .ForMember(d => d.CoverImageUrl, opt => opt.MapFrom(src => src.imageUrl))
+        .ForMember(d => d.CoverImagePublicId, opt => opt.MapFrom(src => src.imagePublicId));
 
       // GENRE PROFILES
       CreateMap<Genre, GenreMinimalListItemDto>();

@@ -1,25 +1,19 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using Contracts.Common;
+using ErrorOr;
+using MediatR;
 
-namespace Contracts.Book
+namespace Application.Features.Book.Commands.Create
 {
-  public class CreateBookRequest
+  public class CreateBookCommand : IRequest<ErrorOr<BaseCommandResponse>>
   {
-    [Required]
     public string Title { get; set; } = null!;
-    [Required]
     public string Description { get; set; } = null!;
-    [Required]
     public string CoverType { get; set; } = null!;
-    [Required]
     public int NumberOfPages { get; set; }
-    [Required]
     public DateTime FirstPublished { get; set; }
-
-    public IFormFile? Image { get; set; }
-    [Required]
+    public string CoverImageUrl { get; set; } = null!;
+    public string CoverImagePublicId { get; set; } = null!;
     public int[] GenreIds { get; set; }
-    [Required]
     public int[] AuthorIds { get; set; }
   }
 }
